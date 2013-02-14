@@ -43,6 +43,7 @@
         <script src="/cubism/cube.js"></script>
         <script src="/cubism/horizon.js"></script>
         <script src="/cubism/sum.js"></script>
+        <script src="/cubism/line.js"></script>
         <script src="/cubism/rule.js"></script>
         <script src="/cubism/axis.js"></script>
         <script src="/cubism/metric.js"></script>
@@ -63,13 +64,12 @@
                 .attr("class", "row sum")
                 .selectAll(".row.sum")
                 .data([
-                    {title: "Request sum", metric: cube.metric("sum(request)")},
-                    {title: "Home", metric: cube.metric("sum(request.re(uri,'/home'))")}
+                    {title: "Request sum", metric: cube.metric("sum(request)")}
                 ])
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
                 .call(
-                    cubism.context().step(60 * 60 * 1000).sum()
+                    cubism.context().step(60 * 60 * 1000).line()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
                 );
