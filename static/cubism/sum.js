@@ -14,7 +14,9 @@ cubism_contextPrototype.sum = function() {
         extent = null,
 
         // Pretty formatter for the chart value
-        format = d3.format("1f");
+        format = d3.format("1f"),
+
+        timestampFormat = d3.time.format("%X");
 
         /* We'll add interpolator here later on, need to figure it out all over again */
         /* color = */
@@ -25,24 +27,32 @@ cubism_contextPrototype.sum = function() {
         Generally, you won't need to specify selection if used with d3(selection).call()
     */
     function sum (selection) {
+        selection.append("h2")
+            .attr("class", "value");
+
         selection.append("span")
-            .attr("class", "value")
-            .attr("width", width)
-            .attr("height", height);
+            .attr("class", "title")
+            .text(function(d){ return d.title; });
+
+        selection.append("span")
+            .attr("class", "timestamp")
+            .text(function(d){ return ", " + timestampFormat(new Date()); });
 
         selection.each(function(d, i){
           var that = this,
               id = ++cubism_id,
               metric_ = typeof metric === "function" ? metric.call(that, d, i) : metric;
 
-          /* React to context change (next set of data) */
+          /* React to next set of data */
           function change (start, stop) {
-              console.log("change sum", start, stop);
-              d3.select(that).select(".value").text(function(){ return format(metric_.valueAt(width - 1)) });
+              d3.select(that).select(".value")
+                .text(function(){ return format(metric_.valueAt(metric_.valuesLength() - 1)) });
+              d3.select(that).select(".timestamp")
+                .text(function(){ return ", " + timestampFormat(new Date()); });
           }
 
-          context.on("change.sum-" + id, change);
-          /*metric_.on("change.sum-" + id, change);*/
+          /*context.on("change.sum-" + id, change);*/
+          metric_.on("change.sum-" + id, change);
         });
     }
 

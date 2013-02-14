@@ -85,6 +85,16 @@ cubism_contextPrototype.metric = function(request, name) {
   };
 
   //
+  metric.values = function(i) {
+    return values;
+  };
+
+  //
+  metric.valuesLength = function(i) {
+    return values.length;
+  };
+
+  //
   metric.shift = function(offset) {
     return context.metric(cubism_metricShift(request, +offset));
   };

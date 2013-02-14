@@ -6,6 +6,8 @@
         <style>
             @import url(style.css);
         </style>
+        <link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap-responsive.css">
     </head>
     <body>
         <select id="step">
@@ -16,6 +18,8 @@
 
         <!-- Cubism and D3 files -->
         <script src="d3.v2.js"></script>
+        <script src="/vendor/js/jquery-1.9.1.js"></script>
+        <script src="/vendor/js/bootstrap.js"></script>
         <script src="/cubism/id.js"></script>
         <script src="/cubism/identity.js"></script>
         <script src="/cubism/cubism.js"></script>
@@ -84,9 +88,22 @@
             });
 
             // Setup a sum card
-            d3.select("body").insert("div", ".sum")
-                .attr("class", "group sum")
-                .call(function(){ this.append("header").text("Test sum module") })
+            d3.select("body").insert("div")
+                .attr("class", "container")
+                .append("div")
+                .attr("class", "row sum")
+                .selectAll(".row.sum")
+                .data([
+                    {title: "Request sum", metric: cube.metric("sum(request)")},
+                    {title: "Home", metric: cube.metric("sum(request.re(uri,'/home'))")}
+                ])
+                .enter().append("div")
+                .attr("class", "sum span2 text-center well")
+                .call(
+                    cubism.context().step(60 * 60 * 1000).sum()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                );
 
             // On mousemove, reposition the chart values to match the rule.
             context.on("focus", function(i) {
