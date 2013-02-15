@@ -25,11 +25,6 @@
         <link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap-responsive.css">
     </head>
     <body>
-        <select id="step">
-            <option value="1e4">10 seconds</option>
-            <option value="6e4">1 minute</option>
-            <option value="3e5">5 minutes</option>
-        </select>
 
         <!-- Cubism and D3 files -->
         <script src="d3.v2.js"></script>
@@ -69,20 +64,25 @@
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
                 .call(
-                    cubism.context().step(60 * 60 * 1000).line()
+                    cubism.context().step(60 * 60 * 1000).sum()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
                 );
 
-            // Initialize the step menu's selection.
-            d3.selectAll("#step option").property("selected", function() {
-                return this.value == step;
-            });
 
-            // Update the location on step change.
-            d3.select("#step").on("change", function() {
-                window.location = "?step=" + this.value + "&" + location.search.replace(/[?&]step=[^&]*(&|$)/g, "$1").substring(1);
-            });
+            // Let's go a different route for lines - just checking
+            [
+                {title: "Request sum", metric: cube.metric("sum(request)")}
+            ].
+            forEach(
+                cubism.context()
+                    // Each data element will hold 1 hours worth of data
+                    .step(60 * 60 * 1000)
+                    // Decides the resolution of the graph == 10 hours worth of data
+                    .size(10)
+                    .line()
+            );
+
 
         </script>
     </body>
