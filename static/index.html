@@ -53,7 +53,7 @@
                 cube = context.cube();
 
             // Setup sum cards
-            d3.select("body").insert("div")
+            /*d3.select("body").insert("div")
                 .attr("class", "container")
                 .append("div")
                 .attr("class", "row sum")
@@ -67,21 +67,21 @@
                     cubism.context().step(60 * 60 * 1000).sum()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
-                );
+                );*/
 
 
             // Let's go a different route for lines - just checking
+            var lineContext = cubism.context()
+                // Each data element will hold 1 hours worth of data
+                .step(6e4)
+                // Decides the resolution of the graph == 10 hours worth of data
+                .size(10);
+
+            // Use the same context to preserve state across graphs
             [
-                {title: "Request sum", metric: cube.metric("sum(request)")}
-            ].
-            forEach(
-                cubism.context()
-                    // Each data element will hold 1 hours worth of data
-                    .step(60 * 60 * 1000)
-                    // Decides the resolution of the graph == 10 hours worth of data
-                    .size(10)
-                    .line()
-            );
+                // Start = yyyy-mm-dd, update = ms
+                {title: "Request sum", metric: "sum(request)", start: "2013-02-15 14:50:00", update: 10000}
+            ].forEach(lineContext.line().offset(330 * 60 * 1000));
 
 
         </script>
