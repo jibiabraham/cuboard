@@ -37,8 +37,7 @@
         <script src="/cubism/context.js"></script>
         <script src="/cubism/cube.js"></script>
         <script src="/cubism/horizon.js"></script>
-        <script src="/cubism/sum.js"></script>
-        <script src="/cubism/line.js"></script>
+        <script src="/cubism/single-value-card.js"></script>
         <script src="/cubism/rule.js"></script>
         <script src="/cubism/axis.js"></script>
         <script src="/cubism/metric.js"></script>
@@ -48,9 +47,9 @@
 
         <!-- Default graph sets from cube -->
         <script>
-            var step = +cubism.option("step", 1e4),
-                context = cubism.context().step(step).size(1440),
-                cube = context.cube();
+            // Step here specifies the update step --> update every ten seconds in this case
+            var svStep = 60 * 60 * 1000 ,
+                svContext = cubism.context().step(svStep).size(1);
 
             // Setup sum cards
             d3.select("body").insert("div")
@@ -59,30 +58,19 @@
                 .attr("class", "row sum")
                 .selectAll(".row.sum")
                 .data([
-                    {title: "Request sum", metric: cube.metric("sum(request)")}
+                    {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
+                    {title: "Total requests (this hour)", metric: "median(request(request_time))", update: 10000, format: d3.format(".3s")},
+                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))", update: 10000},
+                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/news'))", update: 10000},
                 ])
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
                 .call(
-                    cubism.context().step(60 * 60 * 1000).sum()
+                    svContext.svCard()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
                 );
-
-
-            // Let's go a different route for lines - just checking
-            /*var lineContext = cubism.context()
-                // Each data element will hold 1 hours worth of data
-                .step(6e4)
-                // Decides the resolution of the graph == 10 hours worth of data
-                .size(10);
-
-            // Use the same context to preserve state across graphs
-            [
-                // Start = yyyy-mm-dd, update = ms
-                {title: "Request sum", metric: "sum(request)", start: "2013-02-15 14:50:00", update: 10000}
-            ].forEach(lineContext.line().offset(330 * 60 * 1000));*/
-
 
         </script>
     </body>

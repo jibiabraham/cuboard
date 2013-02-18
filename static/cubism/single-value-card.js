@@ -6,6 +6,7 @@ cubism_contextPrototype.svCard = function() {
         title = null,
         metric = null,
         update = 1e4,
+        offset = 330 * 60 * 1000,
 
         // Pretty formatter for the chart value
         format = d3.format("1f"),
@@ -35,12 +36,12 @@ cubism_contextPrototype.svCard = function() {
         selection.each(function(d, i){
             var that = this, timer  = null, range, step = context.step(), now = Date.now(), metric_ = svCard.start(d);
 
-            range = [new Date(now - step), new Date(now)];
+            range = [new Date(now - step - offset), new Date(now - offset)];
 
             // On next data point
             function change (data) {
                 now = Date.now();
-                range = [new Date(now - step), new Date(now)];
+                range = [new Date(now - step - offset), new Date(now - offset)];
 
                 d3.select(that).select(".value")
                 .text(function(){ 
@@ -85,8 +86,8 @@ cubism_contextPrototype.svCard = function() {
         return function(start, stop, step, callback) {
             d3.json("/1.0/metric"
                 + "?expression=" + encodeURIComponent(metric.call(that, d))
-                + "&start=" + cubism_cubeFormatDate(start)
-                + "&stop=" + cubism_cubeFormatDate(stop)
+                + "&start=" + start
+                + "&stop=" + stop
                 + "&step=" + step, function(data) {
                     if (!data) return callback(new Error("unable to load data"));
                     data = data.map(function(d, i){
