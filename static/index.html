@@ -38,6 +38,7 @@
         <script src="/cubism/cube.js"></script>
         <script src="/cubism/horizon.js"></script>
         <script src="/cubism/single-value-card.js"></script>
+        <script src="/cubism/line.js"></script>
         <script src="/cubism/rule.js"></script>
         <script src="/cubism/axis.js"></script>
         <script src="/cubism/metric.js"></script>
@@ -61,12 +62,31 @@
                     {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
                     {title: "Total requests (this hour)", metric: "median(request(request_time))", update: 10000, format: d3.format(".3s")},
                     {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))", update: 10000},
-                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/news'))", update: 10000},
+                    {title: "News (this hour)", metric: "sum(request.re(uri,'/news'))", update: 10000},
                 ])
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
                 .call(
                     svContext.svCard()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
+                );
+
+            var lineStep = 60 * 1000,
+                lineContext = cubism.context().step(lineStep).size(10);
+            d3.select("body").insert("div")
+                .attr("class", "container")
+                .append("div")
+                .attr("class", "row linecard")
+                .selectAll(".row.linecard")
+                .data([
+                    {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
+                ])
+                .enter().append("div")
+                .attr("class", "linecard span6")
+                .call(
+                    lineContext.lineCard()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
                         .update(function(d) { return d.update })
