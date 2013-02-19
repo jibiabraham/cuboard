@@ -102,9 +102,9 @@
                 .attr("class", "row mlinecard")
                 .selectAll(".row.mlinecard")
                 .data([[
-                    {title: "Total requests (this hour)", metric: "sum(request.re(uri,'/news'))"},
-                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))"},
-                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/forums'))"},
+                    {title: "Home (minute)", metric: "sum(request.re(uri,'/home'))"},
+                    {title: "News (minute)", metric: "sum(request.re(uri,'/news'))"},
+                    {title: "Forums (minute)", metric: "sum(request.re(uri,'/forums'))"},
                 ]])
                 .enter().append("div")
                 .attr("class", "mlinecard span12")

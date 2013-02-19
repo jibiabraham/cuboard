@@ -1,6 +1,6 @@
 cubism_contextPrototype.mlCard = function() {
 	var context = this, margin = {top: 20, right: 20, bottom: 30, left: 50}, offset = 330 * 60 * 1000,
-		paths = [], metric_generators = [], times, values, color = d3.scale.category10(), legends;
+		paths = [], metric_generators = [], times, values, color = d3.scale.category10();
 
 	function mlCard (selection) {
         selection.append("h2")
@@ -11,7 +11,7 @@ cubism_contextPrototype.mlCard = function() {
             .text(function(d){ return d.title; });
 
         // SyncMe -> get it? hahaha
-		var that = selection.node(), $that = $(that), syncMe,
+		var that = selection.node(), $that = $(that), syncMe, legends,
 			width = $that.width() - margin.left - margin.right, clipPath,
 		    height = Math.max($that.height(), 300) - margin.top - margin.bottom;
 
@@ -33,6 +33,10 @@ cubism_contextPrototype.mlCard = function() {
 		    .attr("height", height + margin.top + margin.bottom)
 		  .append("g")
 		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		legends = svg.append("g")
+			.attr("class", "legend")
+			.attr("transform", "translate(" + (width-margin.right) + "," + 0 + ")");
 
         xaxis = svg.append("g")
             .attr("class", "x axis")
@@ -88,6 +92,17 @@ cubism_contextPrototype.mlCard = function() {
 		            .attr("fill", "none")
 		            .attr("stroke-width", 1.5)
 		            .attr("stroke", color(i));
+				legends.append("rect")
+					.attr("y", i * 20)
+					.attr("width", 18)
+					.attr("height", 18)
+					.style("fill", color(i));
+				legends.append("text")
+					.attr("y", i * 20)
+					.attr("dy", "1.35em")
+					.attr("dx", "-.45em")
+					.style("text-anchor", "end")
+					.text(ddata.title);
 				
 				metric_generators.push(metric_);
 		        // Keep in mind, this is also the order of the generators
