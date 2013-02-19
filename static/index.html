@@ -30,6 +30,7 @@
         <script src="d3.v2.js"></script>
         <script src="/vendor/js/jquery-1.9.1.js"></script>
         <script src="/vendor/js/bootstrap.js"></script>
+        <script src="/cubism/colorbrewer.js"></script>
         <script src="/cubism/id.js"></script>
         <script src="/cubism/identity.js"></script>
         <script src="/cubism/cubism.js"></script>
@@ -39,6 +40,7 @@
         <script src="/cubism/horizon.js"></script>
         <script src="/cubism/single-value-card.js"></script>
         <script src="/cubism/line.js"></script>
+        <script src="/cubism/multi-line.js"></script>
         <script src="/cubism/rule.js"></script>
         <script src="/cubism/axis.js"></script>
         <script src="/cubism/metric.js"></script>
@@ -60,7 +62,7 @@
                 .selectAll(".row.sum")
                 .data([
                     {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
-                    {title: "Total requests (this hour)", metric: "median(request(request_time))", update: 10000, format: d3.format(".3s")},
+                    {title: "Median(request duration)", metric: "median(request(request_time))", update: 10000, format: d3.format(".3s")},
                     {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))", update: 10000},
                     {title: "News (this hour)", metric: "sum(request.re(uri,'/news'))", update: 10000},
                 ])
@@ -87,6 +89,27 @@
                 .attr("class", "linecard span6")
                 .call(
                     lineContext.lineCard()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
+                );
+
+            var mlStep = 60 * 1000,
+                mlContext = cubism.context().step(mlStep).size(10);
+            d3.select("body").insert("div")
+                .attr("class", "container")
+                .append("div")
+                .attr("class", "row mlinecard")
+                .selectAll(".row.mlinecard")
+                .data([[
+                    {title: "Total requests (this hour)", metric: "sum(request.re(uri,'/news'))"},
+                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))"},
+                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/forums'))"},
+                ]])
+                .enter().append("div")
+                .attr("class", "mlinecard span12")
+                .call(
+                    mlContext.mlCard()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
                         .update(function(d) { return d.update })
