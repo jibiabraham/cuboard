@@ -56,13 +56,15 @@
 
             // Setup sum cards
             d3.select("body").insert("div")
-                .attr("class", "container")
+                .attr("class", "container-fluid")
                 .append("div")
-                .attr("class", "row sum")
-                .selectAll(".row.sum")
+                .attr("class", "row-fluid sum")
+                .selectAll(".row-fluid.sum")
                 .data([
                     {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
+                    {title: "Min(request duration)", metric: "min(request(t))", update: 10000, format: d3.format(".3s")},
                     {title: "Median(request duration)", metric: "median(request(t))", update: 10000, format: d3.format(".3s")},
+                    {title: "Max(request duration)", metric: "max(request(t))", update: 10000, format: d3.format(".3s")},
                     {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))", update: 10000},
                     {title: "News (this hour)", metric: "sum(request.re(uri,'/news'))", update: 10000},
                 ])
@@ -76,12 +78,12 @@
                 );
 
             var lineStep = 60 * 1000,
-                lineContext = cubism.context().step(lineStep).size(10);
+                lineContext = cubism.context().step(lineStep).size(6*60);
             d3.select("body").insert("div")
-                .attr("class", "container")
+                .attr("class", "container-fluid")
                 .append("div")
-                .attr("class", "row linecard")
-                .selectAll(".row.linecard")
+                .attr("class", "row-fluid linecard")
+                .selectAll(".row-fluid.linecard")
                 .data([
                     {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
                 ])
@@ -95,16 +97,18 @@
                 );
 
             var mlStep = 60 * 1000,
-                mlContext = cubism.context().step(mlStep).size(10);
+                mlContext = cubism.context().step(mlStep).size(6*60);
             d3.select("body").insert("div")
-                .attr("class", "container")
+                .attr("class", "container-fluid")
                 .append("div")
-                .attr("class", "row mlinecard")
-                .selectAll(".row.mlinecard")
+                .attr("class", "row-fluid mlinecard")
+                .selectAll(".row-fluid.mlinecard")
                 .data([[
                     {title: "Home (minute)", metric: "sum(request.re(uri,'/home'))"},
                     {title: "News (minute)", metric: "sum(request.re(uri,'/news'))"},
-                    {title: "Forums (minute)", metric: "sum(request.re(uri,'/forums'))"}
+                    {title: "Forums (minute)", metric: "sum(request.re(uri,'/forums'))"},
+                    {title: "Pings (minute)", metric: "sum(request.re(uri,'/pings'))"},
+                    {title: "Comments (minute)", metric: "sum(request.re(uri,'/comments'))"}
                 ]])
                 .enter().append("div")
                 .attr("class", "mlinecard span12")
