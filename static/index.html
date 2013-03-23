@@ -62,7 +62,7 @@
                 .selectAll(".row.sum")
                 .data([
                     {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
-                    {title: "Median(request duration)", metric: "median(request(request_time))", update: 10000, format: d3.format(".3s")},
+                    {title: "Median(request duration)", metric: "median(request(t))", update: 10000, format: d3.format(".3s")},
                     {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))", update: 10000},
                     {title: "News (this hour)", metric: "sum(request.re(uri,'/news'))", update: 10000},
                 ])
@@ -104,7 +104,7 @@
                 .data([[
                     {title: "Home (minute)", metric: "sum(request.re(uri,'/home'))"},
                     {title: "News (minute)", metric: "sum(request.re(uri,'/news'))"},
-                    {title: "Forums (minute)", metric: "sum(request.re(uri,'/forums'))"},
+                    {title: "Forums (minute)", metric: "sum(request.re(uri,'/forums'))"}
                 ]])
                 .enter().append("div")
                 .attr("class", "mlinecard span12")
