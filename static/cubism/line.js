@@ -26,7 +26,7 @@ cubism_contextPrototype.lineCard = function() {
 			var y = d3.scale.linear()
 			    .range([height, 0]);
 
-			var line = d3.svg.line().interpolate("basis")
+			var line = d3.svg.line()
 			    .x(function(d) { 
 			    	return x(d.time); 
 			    })

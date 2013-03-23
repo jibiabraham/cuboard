@@ -20,7 +20,7 @@ cubism_contextPrototype.mlCard = function() {
 			y = d3.scale.linear().range([height, 0]), 
 			line, svg, xaxis, yaxis;
 		
-		line = d3.svg.line().interpolate("basis")
+		line = d3.svg.line()
 		    .x(function(d) { 
 		    	return x(d.time); 
 		    })

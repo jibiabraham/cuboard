@@ -119,6 +119,29 @@
                         .update(function(d) { return d.update })
                 );
 
+            var llStep = 60 * 1000,
+                llContext = cubism.context().step(llStep).size(6*60);
+            d3.select("body").insert("div")
+                .attr("class", "container-fluid")
+                .append("div")
+                .attr("class", "row-fluid mlinecard")
+                .selectAll(".row-fluid.mlinecard")
+                .data([[
+                    {title: "Home (minute)", metric: "sum(request(t).re(uri,'/home'))/sum(request.re(uri,'/home'))"},
+                    {title: "News (minute)", metric: "sum(request(t).re(uri,'/news'))/sum(request.re(uri,'/news'))"},
+                    {title: "Forums (minute)", metric: "sum(request(t).re(uri,'/forums'))/sum(request.re(uri,'/forums'))"},
+                    {title: "Pings (minute)", metric: "sum(request(t).re(uri,'/pings'))/sum(request.re(uri,'/pings'))"},
+                    {title: "Comments (minute)", metric: "sum(request(t).re(uri,'/comments'))/sum(request.re(uri,'/comments'))"}
+                ]])
+                .enter().append("div")
+                .attr("class", "mlinecard span12")
+                .call(
+                    llContext.mlCard()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
+                );
+
         </script>
     </body>
 </html>
