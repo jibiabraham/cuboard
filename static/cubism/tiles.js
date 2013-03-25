@@ -51,10 +51,25 @@ cubism_contextPrototype.tiles = function() {
 
                 metric_(range[0], range[1]).
                     then(function(response){
-                        console.log(response, card);
+                        card.datum(groupResponse(response));
                     });
             });
         });
+    }
+
+    function groupResponse(response){
+        var data = [], interim = {};
+        response.forEach(function(d, i){
+            var key = "a_" + (i%7);
+            if (!interim[key]){
+                interim[key] = [];
+            }
+            interim[key].push(d);
+        });
+        for (var key in interim){
+            data.push(interim[key]);
+        }
+        return data;
     }
 
     function createTiles(d, index, card) {
