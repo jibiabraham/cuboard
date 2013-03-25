@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Tile charts for quick patterns</title>
+        <link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap-responsive.css">
+        <link rel="stylesheet" type="text/css" href="/vendor/css/trulia.css">
+    </head>
+    <body>
+
+        <!-- Cubism and D3 files -->
+        <script src="d3.v2.js"></script>
+        <script src="/vendor/js/jquery-1.9.1.js"></script>
+        <script src="/vendor/js/bootstrap.js"></script>
+        <script src="/cubism/colorbrewer.js"></script>
+        <script src="/cubism/id.js"></script>
+        <script src="/cubism/identity.js"></script>
+        <script src="/cubism/cubism.js"></script>
+        <script src="/cubism/option.js"></script>
+        <script src="/cubism/context.js"></script>
+        <script src="/cubism/cube.js"></script>
+        <script src="/cubism/horizon.js"></script>
+        <script src="/cubism/single-value-card.js"></script>
+        <script src="/cubism/tiles.js"></script>
+        <script src="/cubism/line.js"></script>
+        <script src="/cubism/multi-line.js"></script>
+        <script src="/cubism/rule.js"></script>
+        <script src="/cubism/axis.js"></script>
+        <script src="/cubism/metric.js"></script>
+        <script src="/cubism/metric-constant.js"></script>
+        <script src="/cubism/metric-operator.js"></script>
+        
+
+        <!-- Default graph sets from cube -->
+        <script>
+
+            var tileStep = 60 * 60 * 1000, // Each tile represents an hours' worth of data,
+                backLog = 7, // Extend over a week's time
+                tileContext = cubism.context().step(tileStep).size(1);
+
+            d3.select("body").insert("div")
+                .attr("class", "container-fluid tile_layout")
+                .selectAll(".container-fluid.tile_layout")
+                .data([[
+                    {title: "Total requests (this hour)", metric: "sum(request)"},
+                    {title: "Min(request duration)", metric: "min(request(t))"},
+                    {title: "Median(request duration)", metric: "median(request(t))"},
+                    {title: "Max(request duration)", metric: "max(request(t))"},
+                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))"},
+                    {title: "News (this hour)", metric: "sum(request.re(uri,'/news'))"},
+                ]])
+                .enter().append("div")
+                .call(
+                    tileContext.tiles().
+                        title(function(d){ return d.title; }).
+                        metric(function(d){ return d.metric; }).
+                        update(function(d) { return d.update }).
+                        over(backLog)
+                );
+
+        </script>
+    </body>
+</html>
