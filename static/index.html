@@ -96,7 +96,7 @@
                 );
 
             var mlStep = 60 * 1000,
-                mlContext = cubism.context().step(mlStep).size(24*60);
+                mlContext = cubism.context().step(mlStep).size(12*60);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
@@ -119,7 +119,7 @@
                 );
 
             var llStep = 60 * 1000,
-                llContext = cubism.context().step(llStep).size(24*60);
+                llContext = cubism.context().step(llStep).size(12*60);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
