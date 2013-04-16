@@ -76,14 +76,14 @@
                 );
 
             var lineStep = 1000,
-                lineContext = cubism.context().step(lineStep).size(2*60);
+                lineContext = cubism.context().step(lineStep).size(6*60);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
                 .attr("class", "row-fluid linecard")
                 .selectAll(".row-fluid.linecard")
                 .data([
-                    {title: "Total requests (this hour)", metric: "sum(request)", update: 3000},
+                    {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
                 ])
                 .enter().append("div")
                 .attr("class", "linecard span6")
