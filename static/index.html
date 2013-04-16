@@ -62,6 +62,7 @@
                 .selectAll(".row-fluid.sum")
                 .data([
                     {title: "Total requests (this hour)", metric: "sum(request)", update: 30000},
+                    {title: "Pageviews (this hour)", metric: "sum(request.eq(_a,false))", update: 30000},
                     {title: "Min(request duration)", metric: "min(request(t))", update: 30000, format: d3.format(".3s")},
                     {title: "Median(request duration)", metric: "median(request(t))", update: 30000, format: d3.format(".3s")},
                     {title: "Max(request duration)", metric: "max(request(t))", update: 30000, format: d3.format(".3s")}
@@ -75,18 +76,18 @@
                         .update(function(d) { return d.update })
                 );
 
-            var lineStep = 60 * 1000,
-                lineContext = cubism.context().step(lineStep).size(6*60);
+            var lineStep = 10 * 1000,
+                lineContext = cubism.context().step(lineStep).size(10*60);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
                 .attr("class", "row-fluid linecard")
                 .selectAll(".row-fluid.linecard")
                 .data([
-                    {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
+                    {title: "All (req/10 sec)", metric: "sum(request)", update: 10000},
                 ])
                 .enter().append("div")
-                .attr("class", "linecard span6")
+                .attr("class", "linecard span12")
                 .call(
                     lineContext.lineCard()
                         .title(function(d){ return d.title; })
@@ -102,11 +103,11 @@
                 .attr("class", "row-fluid mlinecard")
                 .selectAll(".row-fluid.mlinecard")
                 .data([[
-                    {title: "Home (minute)", metric: "sum(request.re(uri,'/home'))"},
-                    {title: "News (minute)", metric: "sum(request.re(uri,'/news'))"},
-                    {title: "Forums (minute)", metric: "sum(request.re(uri,'/forums'))"},
-                    {title: "Pings (minute)", metric: "sum(request.re(uri,'/pings'))"},
-                    {title: "Comments (minute)", metric: "sum(request.re(uri,'/comments'))"}
+                    {title: "Home (req/min)", metric: "sum(request.re(uri,'/home'))"},
+                    {title: "News (req/min)", metric: "sum(request.re(uri,'/news'))"},
+                    {title: "Forums (req/min)", metric: "sum(request.re(uri,'/forums'))"},
+                    {title: "Pings (req/min)", metric: "sum(request.re(uri,'/pings'))"},
+                    {title: "Comments (req/min)", metric: "sum(request.re(uri,'/comments'))"}
                 ]])
                 .enter().append("div")
                 .attr("class", "mlinecard span12")
@@ -125,11 +126,11 @@
                 .attr("class", "row-fluid mlinecard")
                 .selectAll(".row-fluid.mlinecard")
                 .data([[
-                    {title: "Home (minute)", metric: "sum(request(t).re(uri,'/home'))/sum(request.re(uri,'/home'))"},
-                    {title: "News (minute)", metric: "sum(request(t).re(uri,'/news'))/sum(request.re(uri,'/news'))"},
-                    {title: "Forums (minute)", metric: "sum(request(t).re(uri,'/forums'))/sum(request.re(uri,'/forums'))"},
-                    {title: "Pings (minute)", metric: "sum(request(t).re(uri,'/pings'))/sum(request.re(uri,'/pings'))"},
-                    {title: "Comments (minute)", metric: "sum(request(t).re(uri,'/comments'))/sum(request.re(uri,'/comments'))"}
+                    {title: "Home (avg load ms/min)", metric: "sum(request(t).re(uri,'/home'))/sum(request.re(uri,'/home'))"},
+                    {title: "News (avg load ms/min)", metric: "sum(request(t).re(uri,'/news'))/sum(request.re(uri,'/news'))"},
+                    {title: "Forums (avg load ms/min)", metric: "sum(request(t).re(uri,'/forums'))/sum(request.re(uri,'/forums'))"},
+                    {title: "Pings (avg load ms/min)", metric: "sum(request(t).re(uri,'/pings'))/sum(request.re(uri,'/pings'))"},
+                    {title: "Comments (avg load ms/min)", metric: "sum(request(t).re(uri,'/comments'))/sum(request.re(uri,'/comments'))"}
                 ]])
                 .enter().append("div")
                 .attr("class", "mlinecard span12")
