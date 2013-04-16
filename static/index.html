@@ -46,7 +46,7 @@
         <script src="/cubism/metric.js"></script>
         <script src="/cubism/metric-constant.js"></script>
         <script src="/cubism/metric-operator.js"></script>
-        
+
 
         <!-- Default graph sets from cube -->
         <script>
@@ -61,12 +61,10 @@
                 .attr("class", "row-fluid sum")
                 .selectAll(".row-fluid.sum")
                 .data([
-                    {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
-                    {title: "Min(request duration)", metric: "min(request(t))", update: 10000, format: d3.format(".3s")},
-                    {title: "Median(request duration)", metric: "median(request(t))", update: 10000, format: d3.format(".3s")},
-                    {title: "Max(request duration)", metric: "max(request(t))", update: 10000, format: d3.format(".3s")},
-                    {title: "Home (this hour)", metric: "sum(request.re(uri,'/home'))", update: 10000},
-                    {title: "News (this hour)", metric: "sum(request.re(uri,'/news'))", update: 10000},
+                    {title: "Total requests (this hour)", metric: "sum(request)", update: 30000},
+                    {title: "Min(request duration)", metric: "min(request(t))", update: 30000, format: d3.format(".3s")},
+                    {title: "Median(request duration)", metric: "median(request(t))", update: 30000, format: d3.format(".3s")},
+                    {title: "Max(request duration)", metric: "max(request(t))", update: 30000, format: d3.format(".3s")}
                 ])
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
@@ -77,15 +75,15 @@
                         .update(function(d) { return d.update })
                 );
 
-            var lineStep = 60 * 1000,
-                lineContext = cubism.context().step(lineStep).size(6*60);
+            var lineStep = 1000,
+                lineContext = cubism.context().step(lineStep).size(2*60);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
                 .attr("class", "row-fluid linecard")
                 .selectAll(".row-fluid.linecard")
                 .data([
-                    {title: "Total requests (this hour)", metric: "sum(request)", update: 10000},
+                    {title: "Total requests (this hour)", metric: "sum(request)", update: 3000},
                 ])
                 .enter().append("div")
                 .attr("class", "linecard span6")
