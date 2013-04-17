@@ -76,15 +76,15 @@
                         .update(function(d) { return d.update })
                 );
 
-            var lineStep = 10 * 1000,
-                lineContext = cubism.context().step(lineStep).size(10*60);
+            var lineStep = 60 * 1000,
+                lineContext = cubism.context().step(lineStep).size(3*60);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
                 .attr("class", "row-fluid linecard")
                 .selectAll(".row-fluid.linecard")
                 .data([
-                    {title: "All (req/10 sec)", metric: "sum(request.eq(_a,false).eq(m,'GET'))", update: 10000},
+                    {title: "All GET (req/min)", metric: "sum(request.eq(_a,false).eq(m,'GET'))", update: 10000},
                 ])
                 .enter().append("div")
                 .attr("class", "linecard span12")
