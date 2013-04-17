@@ -84,7 +84,7 @@
                 .attr("class", "row-fluid linecard")
                 .selectAll(".row-fluid.linecard")
                 .data([
-                    {title: "All GET (req/min)", metric: "sum(request.eq(_a,false).eq(m,'GET'))", update: 10000},
+                    {title: "All GET (req/min)", metric: "sum(request.eq(_a,false).eq(m,'GET').eq(c,200))", update: 20000},
                 ])
                 .enter().append("div")
                 .attr("class", "linecard span12")
