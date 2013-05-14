@@ -141,9 +141,8 @@
                         .update(function(d) { return d.update })
                 );
 
-
-            var llStep = 60 * 1000,
-                llContext = cubism.context().step(llStep).size(3*60);
+            var cmStep = 60 * 60 * 1000 ,
+                cmContext = cubism.context().step(cmStep).size(1);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
@@ -158,7 +157,7 @@
                 .enter().append("div")
                 .attr("class", "mlinecard span12")
                 .call(
-                    llContext.mlCard()
+                    cmContext.mlCard()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
                         .update(function(d) { return d.update })
