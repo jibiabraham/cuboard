@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Cube</title>
+        <title>PG Analytics Dashboard</title>
         <style>
             @import url(style.css);
             svg {
@@ -131,6 +131,29 @@
                     {title: "Forums (avg load ms/min)", metric: "sum(request(t).re(uri,'/forums'))/sum(request.re(uri,'/forums'))"},
                     {title: "Pings (avg load ms/min)", metric: "sum(request(t).re(uri,'/pings'))/sum(request.re(uri,'/pings'))"},
                     {title: "Comments (avg load ms/min)", metric: "sum(request(t).re(uri,'/comments'))/sum(request.re(uri,'/comments'))"}
+                ]])
+                .enter().append("div")
+                .attr("class", "mlinecard span12")
+                .call(
+                    llContext.mlCard()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
+                );
+
+
+            var llStep = 60 * 1000,
+                llContext = cubism.context().step(llStep).size(3*60);
+            d3.select("body").insert("div")
+                .attr("class", "container-fluid")
+                .append("div")
+                .attr("class", "row-fluid mlinecard")
+                .selectAll(".row-fluid.mlinecard")
+                .data([[
+                    {title: "Comments (per hour)", metric: "sum(request.gte(ctype,11).lte(ctype,13))"},
+                    {title: "Messages (per hour)", metric: "sum(request.eq(ctype,14))"},
+                    {title: "Forum Posts (per hour)", metric: "sum(request.gte(ctype,2).lte(ctype,4))"},
+                    {title: "Pings (per hour)", metric: "sum(request.eq(ctype,5))"},
                 ]])
                 .enter().append("div")
                 .attr("class", "mlinecard span12")
