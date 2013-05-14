@@ -150,10 +150,10 @@
                 .attr("class", "row-fluid mlinecard")
                 .selectAll(".row-fluid.mlinecard")
                 .data([[
-                    {title: "Comments (per hour)", metric: "sum(request.gte(ctype,11).lte(ctype,13))"},
-                    {title: "Messages (per hour)", metric: "sum(request.eq(ctype,14))"},
-                    {title: "Forum Posts (per hour)", metric: "sum(request.gte(ctype,2).lte(ctype,4))"},
-                    {title: "Pings (per hour)", metric: "sum(request.eq(ctype,5))"},
+                    {title: "Comments (per hour)", metric: "sum(counts.gte(ctype,11).lte(ctype,13))"},
+                    {title: "Messages (per hour)", metric: "sum(counts.eq(ctype,14))"},
+                    {title: "Forum Posts (per hour)", metric: "sum(counts.gte(ctype,2).lte(ctype,4))"},
+                    {title: "Pings (per hour)", metric: "sum(counts.eq(ctype,5))"},
                 ]])
                 .enter().append("div")
                 .attr("class", "mlinecard span12")
