@@ -76,6 +76,8 @@
                         .update(function(d) { return d.update })
                 );
 
+
+
             var lineStep = 60 * 1000,
                 lineContext = cubism.context().step(lineStep).size(3*60);
             d3.select("body").insert("div")
@@ -90,6 +92,29 @@
                 .attr("class", "linecard span12")
                 .call(
                     lineContext.lineCard()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
+                );
+
+
+            var cmStep = 60 * 60 * 1000 ,
+                cmContext = cubism.context().step(cmStep).size(24);
+            d3.select("body").insert("div")
+                .attr("class", "container-fluid")
+                .append("div")
+                .attr("class", "row-fluid mlinecard")
+                .selectAll(".row-fluid.mlinecard")
+                .data([[
+                    {title: "Comments (per hour)", metric: "sum(counts.gt(ctype,10).lt(ctype,14))", update: 60000},
+                    {title: "Messages (per hour)", metric: "sum(counts.eq(ctype,14))", update: 60000},
+                    {title: "Forum Posts (per hour)", metric: "sum(counts.gt(ctype,1).lt(ctype,5))", update: 60000},
+                    {title: "Pings (per hour)", metric: "sum(counts.eq(ctype,5))", update: 60000},
+                ]])
+                .enter().append("div")
+                .attr("class", "mlinecard span12")
+                .call(
+                    cmContext.mlCard()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
                         .update(function(d) { return d.update })
@@ -141,27 +166,7 @@
                         .update(function(d) { return d.update })
                 );
 
-            var cmStep = 60 * 60 * 1000 ,
-                cmContext = cubism.context().step(cmStep).size(24);
-            d3.select("body").insert("div")
-                .attr("class", "container-fluid")
-                .append("div")
-                .attr("class", "row-fluid mlinecard")
-                .selectAll(".row-fluid.mlinecard")
-                .data([[
-                    {title: "Comments (per hour)", metric: "sum(counts.gt(ctype,10).lt(ctype,14))", update: 60000},
-                    {title: "Messages (per hour)", metric: "sum(counts.eq(ctype,14))", update: 60000},
-                    {title: "Forum Posts (per hour)", metric: "sum(counts.gt(ctype,1).lt(ctype,5))", update: 60000},
-                    {title: "Pings (per hour)", metric: "sum(counts.eq(ctype,5))", update: 60000},
-                ]])
-                .enter().append("div")
-                .attr("class", "mlinecard span12")
-                .call(
-                    cmContext.mlCard()
-                        .title(function(d){ return d.title; })
-                        .metric(function(d){ return d.metric; })
-                        .update(function(d) { return d.update })
-                );
+
 
         </script>
     </body>
