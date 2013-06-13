@@ -61,8 +61,8 @@
                 .attr("class", "row-fluid sum")
                 .selectAll(".row-fluid.sum")
                 .data([
-                    {title: "Today's total requests", metric: "sum(request)", update: 30000},
-                    {title: "Today's total pageviews", metric: "sum(request.eq(_a,false))", update: 30000},
+                    {title: "Requests (today)", metric: "sum(request)", update: 30000},
+                    {title: "Pageviews (today)", metric: "sum(request.eq(_a,false))", update: 30000},
                 ])
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
@@ -75,7 +75,7 @@
 
             // Step here specifies the update step --> update every ten seconds in this case
             var bkStep = 24 * 60 * 60 * 1000,
-                bkContext = cubism.context().step(bkStep).size(1);
+                bkContext = cubism.context().step(bkStep).size(365);
 
             // Setup sum cards
             d3.select("body").insert("div")
