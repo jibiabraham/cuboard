@@ -83,8 +83,8 @@
                 .attr("class", "row-fluid sum")
                 .selectAll(".row-fluid.sum")
                 .data([
-                    {title: "Total Book Downloads", metric: "sum(bookdownload)", update: 120000},
-                    {title: "Total Fullname Changes", metric: "sum(namerequest)", update: 120000},
+                    {title: "Book Downloads (Today)", metric: "sum(bookdownload)", update: 120000},
+                    {title: "Fullname Changes (Today)", metric: "sum(namerequest)", update: 120000},
                 ])
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
