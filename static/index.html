@@ -51,7 +51,7 @@
         <!-- Default graph sets from cube -->
         <script>
             // Step here specifies the update step --> update every ten seconds in this case
-            var svStep = 60 * 60 * 1000 ,
+            var svStep = 24 * 60 * 60 * 1000 ,
                 svContext = cubism.context().step(svStep).size(1);
 
             // Setup sum cards
@@ -61,11 +61,8 @@
                 .attr("class", "row-fluid sum")
                 .selectAll(".row-fluid.sum")
                 .data([
-                    {title: "Total requests (this hour)", metric: "sum(request)", update: 30000},
-                    {title: "Pageviews (this hour)", metric: "sum(request.eq(_a,false))", update: 30000},
-                    {title: "Min(request duration)", metric: "min(request(t))", update: 30000, format: d3.format(".3s")},
-                    {title: "Median(request duration)", metric: "median(request(t))", update: 30000, format: d3.format(".3s")},
-                    {title: "Max(request duration)", metric: "max(request(t))", update: 30000, format: d3.format(".3s")}
+                    {title: "Today's total requests", metric: "sum(request)", update: 30000},
+                    {title: "Today's total pageviews", metric: "sum(request.eq(_a,false))", update: 30000},
                 ])
                 .enter().append("div")
                 .attr("class", "sum span2 text-center well")
@@ -76,22 +73,24 @@
                         .update(function(d) { return d.update })
                 );
 
+            // Step here specifies the update step --> update every ten seconds in this case
+            var bkStep = 365 * 24 * 60 * 60 * 1000,
+                bkContext = cubism.context().step(bkStep).size(1);
 
-
-            var lineStep = 60 * 1000,
-                lineContext = cubism.context().step(lineStep).size(3*60);
+            // Setup sum cards
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
                 .append("div")
-                .attr("class", "row-fluid linecard")
-                .selectAll(".row-fluid.linecard")
+                .attr("class", "row-fluid sum")
+                .selectAll(".row-fluid.sum")
                 .data([
-                    {title: "All GET (req/min)", metric: "sum(request.eq(_a,false).eq(m,'GET').eq(c,200))", update: 20000},
+                    {title: "Total Book Downloads", metric: "sum(bookdownload)", update: 120000},
+                    {title: "Total Fullname Changes", metric: "sum(namerequest)", update: 120000},
                 ])
                 .enter().append("div")
-                .attr("class", "linecard span12")
+                .attr("class", "sum span2 text-center well")
                 .call(
-                    lineContext.lineCard()
+                    bkContext.svCard()
                         .title(function(d){ return d.title; })
                         .metric(function(d){ return d.metric; })
                         .update(function(d) { return d.update })
@@ -120,7 +119,7 @@
                         .update(function(d) { return d.update })
                 );
 
-            var mlStep = 60 * 1000,
+           /* var mlStep = 60 * 1000,
                 mlContext = cubism.context().step(mlStep).size(3*60);
             d3.select("body").insert("div")
                 .attr("class", "container-fluid")
@@ -142,7 +141,7 @@
                         .metric(function(d){ return d.metric; })
                         .update(function(d) { return d.update })
                 );
-
+*/
             var llStep = 60 * 1000,
                 llContext = cubism.context().step(llStep).size(3*60);
             d3.select("body").insert("div")
