@@ -143,7 +143,27 @@
                         .update(function(d) { return d.update })
                 );
 
-
+            var wkStep = 24 * 60 * 60 * 1000 ,
+                wkContext = cubism.context().step(wkStep).size(14);
+            d3.select("body").insert("div")
+                .attr("class", "container-fluid")
+                .append("div")
+                .attr("class", "row-fluid mlinecard")
+                .selectAll(".row-fluid.mlinecard")
+                .data([[
+                    {title: "Comments (per day)", metric: "sum(counts.gt(ctype,10).lt(ctype,14))", update: 600000},
+                    {title: "Messages (per day)", metric: "sum(counts.eq(ctype,14))", update: 600000},
+                    {title: "Forum Posts (per day)", metric: "sum(counts.gt(ctype,1).lt(ctype,5))", update: 600000},
+                    {title: "Pings (per day)", metric: "sum(counts.eq(ctype,5))", update: 600000},
+                ]])
+                .enter().append("div")
+                .attr("class", "mlinecard span12")
+                .call(
+                    wkContext.mlCard()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
+                );
 
 
            /* var mlStep = 60 * 1000,
