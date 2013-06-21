@@ -73,6 +73,26 @@
                         .update(function(d) { return d.update })
                 );
 
+            var bkgStep = 24 * 60 * 60 * 1000,
+                bkgContext = cubism.context().step(bkgStep).size(14);
+            d3.select("body").insert("div")
+                .attr("class", "container-fluid")
+                .append("div")
+                .attr("class", "row-fluid mlinecard")
+                .selectAll(".row-fluid.mlinecard")
+                .data([[
+                    {title: "Books (per day)", metric: "sum(bookdownload)", update: 180000},
+                    {title: "Name Changes (per day)", metric: "sum(namerequest)", update: 180000},
+                ]])
+                .enter().append("div")
+                .attr("class", "mlinecard span12")
+                .call(
+                    bkgContext.mlCard()
+                        .title(function(d){ return d.title; })
+                        .metric(function(d){ return d.metric; })
+                        .update(function(d) { return d.update })
+                );
+
             var bkStep = 24 * 60 * 60 * 1000,
                 bkContext = cubism.context().step(bkStep).size(365);
 
